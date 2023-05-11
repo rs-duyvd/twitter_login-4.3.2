@@ -11,8 +11,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final String apiKey = 'S9GzajUq5r5V4VIvT0V0M1HrP';
-  final String apiSecretKey = 'U6NhHZxqRahi2StQYLz6mVhMZEow1HsaZ6igkNgJa47dfQ4fhI';
+  final String apiKey = 'cJNbVYJlEPHnrT2J1yzwEUet9';
+  final String apiSecretKey = 'cYColZN7Jo90H7sFUWu1hDUSVfl2NCUv9gFPLxcLdVTnCGbUy9';
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +83,7 @@ class _MyAppState extends State<MyApp> {
       /// Registered Callback URLs in TwitterApp
       /// Android is a deeplink
       /// iOS is a URLScheme
-      redirectURI: 'example://',
+      redirectURI: 'limitalk://',
     );
 
     /// Forces the user to enter their credentials
@@ -103,7 +103,7 @@ class _MyAppState extends State<MyApp> {
         print('====== Login cancel ======');
         break;
       case TwitterLoginStatus.error:
-      case null:
+      default:
         // error
         print('====== Login error ======');
         break;
@@ -140,7 +140,7 @@ class _MyAppState extends State<MyApp> {
         print('====== Login cancel ======');
         break;
       case TwitterLoginStatus.error:
-      case null:
+      default:
         // error
         print('====== Login error ======');
         break;

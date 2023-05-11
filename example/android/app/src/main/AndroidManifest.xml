@@ -46,7 +46,7 @@
                 <!-- Registered Callback URLs in TwitterApp -->
                 <data
                     android:host=""
-                    android:scheme="example" /> <!-- host is option -->
+                    android:scheme="limitalk" /> <!-- host is option -->
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.
