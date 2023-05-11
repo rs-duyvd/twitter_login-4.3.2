@@ -32,7 +32,7 @@ class AuthBrowser {
   }
 
   ///　Open a web browser and log in to your Twitter account.
-  Future<String?> doAuth(String url, String scheme) async {
+  Future<String> doAuth(String url, String scheme) async {
     if (Platform.isAndroid) {
       return '';
     }
@@ -68,7 +68,7 @@ class AuthBrowser {
       throw PlatformException(code: 'INVALID_AUTHORIZATION', message: 'can not open custom tabs.');
     }
 
-    final available = await _channel.invokeMethod<bool?>('open', {
+    final available = await _channel.invokeMethod<bool>('open', {
           'url': url,
           'redirectURL': scheme,
           'id': id,

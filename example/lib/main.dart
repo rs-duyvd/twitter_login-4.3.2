@@ -13,6 +13,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final String apiKey = 'key';
   final String apiSecretKey = 'key';
+  final String redirectURI = 'example://';
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +84,7 @@ class _MyAppState extends State<MyApp> {
       /// Registered Callback URLs in TwitterApp
       /// Android is a deeplink
       /// iOS is a URLScheme
-      redirectURI: 'example://',
+      redirectURI: redirectURI,
     );
 
     /// Forces the user to enter their credentials
@@ -124,7 +125,7 @@ class _MyAppState extends State<MyApp> {
       /// Registered Callback URLs in TwitterApp
       /// Android is a deeplink
       /// iOS is a URLScheme
-      redirectURI: 'example://',
+      redirectURI: redirectURI,
     );
 
     /// Forces the user to enter their credentials
