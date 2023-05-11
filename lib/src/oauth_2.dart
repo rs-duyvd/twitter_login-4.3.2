@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:twitter_login/src/utils.dart';
 
@@ -8,9 +9,9 @@ class Oauth2 {
   /// get applicatoin Bearer Token.
   ///
   /// https://developer.twitter.com/en/docs/authentication/oauth-2-0/application-only
-  static Future<String?> getBearerToken({
-    required String apiKey,
-    required String apiSecretKey,
+  static Future<String> getBearerToken({
+    @required String apiKey,
+    @required String apiSecretKey,
   }) async {
     final _httpClient = http.Client();
     final res = await _httpClient.post(

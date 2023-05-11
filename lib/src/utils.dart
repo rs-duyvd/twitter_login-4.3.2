@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:twitter_login/src/signature.dart';
 
@@ -21,11 +22,11 @@ const ACCOUNT_VERIFY_URI =
 const USER_LOCKUP_URI = 'https://api.twitter.com/2/users';
 
 ///
-String? generateAuthHeader(Map<String, dynamic> params) =>
+String generateAuthHeader(Map<String, dynamic> params) =>
     'OAuth ${params.keys.map((k) => '$k="${Uri.encodeComponent(params[k] as String)}"').join(', ')}';
 
 /// send http request
-Future<Map<String, dynamic>>? httpPost(
+Future<Map<String, dynamic>> httpPost(
   String url,
   Map<String, dynamic> params,
   String apiKey,
@@ -44,7 +45,7 @@ Future<Map<String, dynamic>>? httpPost(
     final _httpClient = http.Client();
     final res = await _httpClient.post(
       Uri.parse(url),
-      headers: <String, String>{'Authorization': header!},
+      headers: <String, String>{'Authorization': header},
     );
     if (res.statusCode != 200) {
       throw HttpException('Failed ${res.reasonPhrase}');
@@ -58,11 +59,11 @@ Future<Map<String, dynamic>>? httpPost(
 
 Future<Map<String, dynamic>> httpGet(
   String url, {
-  Map<String, dynamic>? query,
-  required Map<String, dynamic> authHeader,
-  required String apiKey,
-  required String apiSecretKey,
-  required String tokenSecret,
+  Map<String, dynamic> query,
+  @required Map<String, dynamic> authHeader,
+  @required String apiKey,
+  @required String apiSecretKey,
+  @required String tokenSecret,
 }) async {
   try {
     final _signature = Signature(
@@ -79,7 +80,7 @@ Future<Map<String, dynamic>> httpGet(
     final _url = Uri.parse(url).replace(queryParameters: query);
     final res = await _httpClient.get(
       _url,
-      headers: <String, String>{'Authorization': header!},
+      headers: <String, String>{'Authorization': header},
     );
     if (res.statusCode != 200) {
       throw HttpException('Failed ${res.reasonPhrase}');
@@ -93,8 +94,8 @@ Future<Map<String, dynamic>> httpGet(
 
 Future<Map<String, dynamic>> httpGetFromBearerToken(
   String url, {
-  Map<String, dynamic>? query,
-  required String bearerToken,
+  Map<String, dynamic> query,
+  @required String bearerToken,
 }) async {
   try {
     final _httpClient = http.Client();
@@ -111,11 +112,11 @@ Future<Map<String, dynamic>> httpGetFromBearerToken(
   }
 }
 
-Map<String, String?> requestHeader({
-  String? apiKey,
-  String? oauthToken = '',
-  String? redirectURI = '',
-  String? oauthVerifier = '',
+Map<String, String> requestHeader({
+  String apiKey,
+  String oauthToken = '',
+  String redirectURI = '',
+  String oauthVerifier = '',
 }) {
   final dtNow = DateTime.now().millisecondsSinceEpoch;
   final params = {
@@ -126,10 +127,10 @@ Map<String, String?> requestHeader({
     'oauth_nonce': dtNow.toString(),
     'oauth_version': '1.0',
   };
-  if (redirectURI?.isNotEmpty ?? true) {
+  if (redirectURI.isNotEmpty ?? true) {
     params.addAll({'oauth_callback': redirectURI});
   }
-  if (oauthVerifier?.isNotEmpty ?? true) {
+  if (oauthVerifier.isNotEmpty ?? true) {
     params.addAll({'oauth_verifier': oauthVerifier});
   }
   return params;
@@ -142,5 +143,5 @@ String createCryptoRandomString([int length = 32]) {
 }
 
 extension MapExt on Map {
-  T? get<T>(String key) => containsKey(key) ? this[key] as T : null;
+  T get<T>(String key) => containsKey(key) ? this[key] as T : null;
 }

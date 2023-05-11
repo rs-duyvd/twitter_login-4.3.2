@@ -5,12 +5,12 @@ import 'package:twitter_login/src/utils.dart';
 class User {
   /// constructor
   User(Map<String, dynamic> params)
-      : _id = params.get<int>('id')!,
+      : _id = params.get<int>('id'),
         // ignore: deprecated_member_use_from_same_package
-        _email = params.get<String?>('email') ?? '',
-        _thumbnailImage = params.get<String?>('profile_image_url_https') ?? '',
-        _name = params.get<String?>('name') ?? '',
-        _screenName = params.get<String?>('screen_name') ?? '';
+        _email = params.get<String>('email') ?? '',
+        _thumbnailImage = params.get<String>('profile_image_url_https') ?? '',
+        _name = params.get<String>('name') ?? '',
+        _screenName = params.get<String>('screen_name') ?? '';
 
   /// The unique identifier of this user.
   ///
@@ -106,7 +106,7 @@ class User {
       final params = await httpGetFromBearerToken(
         '$USER_LOCKUP_URI/$userId',
         query: {'user.fields': 'id,name,username,profile_image_url'},
-        bearerToken: token!,
+        bearerToken: token,
       );
 
       // migrate v2 user model to v1.0a user model.

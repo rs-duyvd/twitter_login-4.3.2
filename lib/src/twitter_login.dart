@@ -26,9 +26,9 @@ enum TwitterLoginStatus {
 class TwitterLogin {
   /// constructor
   TwitterLogin({
-    required this.apiKey,
-    required this.apiSecretKey,
-    required this.redirectURI,
+    @required this.apiKey,
+    @required this.apiSecretKey,
+    @required this.redirectURI,
   });
 
   /// Consumer API key
@@ -47,7 +47,7 @@ class TwitterLogin {
   /// Logs the user
   /// Forces the user to enter their credentials to ensure the correct users account is authorized.
   Future<AuthResult> login({bool forceLogin = false}) async {
-    String? resultURI;
+    String resultURI;
     RequestToken requestToken;
     try {
       requestToken = await RequestToken.getRequestToken(
@@ -65,15 +65,15 @@ class TwitterLogin {
     }
 
     final uri = Uri.parse(redirectURI);
-    final completer = Completer<String?>();
-    late StreamSubscription subscribe;
+    final completer = Completer<String>();
+     StreamSubscription subscribe;
 
     if (Platform.isAndroid) {
       await _channel.invokeMethod('setScheme', uri.scheme);
       subscribe = _eventStream.listen((data) async {
         if (data['type'] == 'url') {
           if (!completer.isCompleted) {
-            completer.complete(data['url']?.toString());
+            completer.complete(data['url'].toString());
           } else {
             throw const CanceledByUserException();
           }
@@ -112,11 +112,11 @@ class TwitterLogin {
       }
 
       // The user closed the browser.
-      if (resultURI?.isEmpty ?? true) {
+      if (resultURI.isEmpty ?? true) {
         throw const CanceledByUserException();
       }
 
-      final queries = Uri.splitQueryString(Uri.parse(resultURI!).query);
+      final queries = Uri.splitQueryString(Uri.parse(resultURI).query);
       if (queries['error'] != null) {
         throw Exception('Error Response: ${queries['error']}');
       }
@@ -132,7 +132,7 @@ class TwitterLogin {
         queries,
       );
 
-      if ((token.authToken?.isEmpty ?? true) || (token.authTokenSecret?.isEmpty ?? true)) {
+      if ((token.authToken.isEmpty ?? true) || (token.authTokenSecret.isEmpty ?? true)) {
         return AuthResult(
           authToken: token.authToken,
           authTokenSecret: token.authTokenSecret,
@@ -141,14 +141,14 @@ class TwitterLogin {
         );
       }
 
-      User? user;
+      User user;
 
       try {
         user = await User.getUserData(
           apiKey,
           apiSecretKey,
-          token.authToken!,
-          token.authTokenSecret!,
+          token.authToken,
+          token.authTokenSecret,
         );
       } on Exception {
         debugPrint('The rate limit may have been reached or the API may be restricted.');
@@ -174,7 +174,7 @@ class TwitterLogin {
   }
 
   Future<AuthResult> loginV2({bool forceLogin = false}) async {
-    String? resultURI;
+    String resultURI;
     RequestToken requestToken;
     try {
       requestToken = await RequestToken.getRequestToken(
@@ -192,8 +192,8 @@ class TwitterLogin {
     }
 
     final uri = Uri.parse(redirectURI);
-    final completer = Completer<String?>();
-    late StreamSubscription subscribe;
+    final completer = Completer<String>();
+     StreamSubscription subscribe;
 
     if (Platform.isAndroid) {
       await _channel.invokeMethod('setScheme', uri.scheme);
@@ -239,11 +239,11 @@ class TwitterLogin {
       }
 
       // The user closed the browser.
-      if (resultURI?.isEmpty ?? true) {
+      if (resultURI.isEmpty ?? true) {
         throw const CanceledByUserException();
       }
 
-      final queries = Uri.splitQueryString(Uri.parse(resultURI!).query);
+      final queries = Uri.splitQueryString(Uri.parse(resultURI).query);
       if (queries['error'] != null) {
         throw Exception('Error Response: ${queries['error']}');
       }
@@ -259,7 +259,7 @@ class TwitterLogin {
         queries,
       );
 
-      if ((token.authToken?.isEmpty ?? true) || (token.authTokenSecret?.isEmpty ?? true)) {
+      if ((token.authToken.isEmpty ?? true) || (token.authTokenSecret?.isEmpty ?? true)) {
         return AuthResult(
           authToken: token.authToken,
           authTokenSecret: token.authTokenSecret,
@@ -268,14 +268,14 @@ class TwitterLogin {
         );
       }
 
-      User? user;
+      User user;
       try {
         user = await User.getUserDataV2(
           apiKey,
           apiSecretKey,
-          token.authToken!,
-          token.authTokenSecret!,
-          token.userId!,
+          token.authToken,
+          token.authTokenSecret,
+          token.userId,
         );
       } on Exception {
         debugPrint('The rate limit may have been reached or the API may be restricted.');

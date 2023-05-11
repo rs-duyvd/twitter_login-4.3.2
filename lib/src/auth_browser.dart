@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:twitter_login/src/exception.dart';
 import 'package:twitter_login/src/utils.dart';
@@ -7,15 +8,15 @@ import 'package:twitter_login/src/utils.dart';
 const String methodName = 'twitter_login/auth_browser';
 
 class AuthBrowser {
-  AuthBrowser({required this.onClose}) {
+  AuthBrowser({@required this.onClose}) {
     id = createCryptoRandomString();
     _methodCallHandlerChannel = MethodChannel('${methodName}_$id');
     _methodCallHandlerChannel.setMethodCallHandler(methodCallHandler);
     _isOpen = false;
   }
-  late final String id;
+  String id;
   static const _channel = MethodChannel(methodName);
-  late MethodChannel _methodCallHandlerChannel;
+  MethodChannel _methodCallHandlerChannel;
   bool _isOpen = false;
   Function onClose;
 
