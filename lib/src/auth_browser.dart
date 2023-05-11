@@ -17,7 +17,7 @@ class AuthBrowser {
   static const _channel = MethodChannel(methodName);
   late MethodChannel _methodCallHandlerChannel;
   bool _isOpen = false;
-  VoidCallback onClose;
+  Function onClose;
 
   Future methodCallHandler(MethodCall call) async {
     switch (call.method) {
